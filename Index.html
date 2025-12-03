@@ -3,386 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebOS v2.0 Ultimate</title>
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ConstructOS V1 (x64)</title>
     <style>
         :root {
-            --bg-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop');
-            --glass-bg: rgba(20, 20, 20, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent: #7c4dff;
-            --text-main: #ffffff;
-            --taskbar-bg: rgba(10, 10, 10, 0.75);
+            /* The 16-Color Palette */
+            --c-black: #000000;
+            --c-blue: #0000AA;
+            --c-green: #00AA00;
+            --c-cyan: #00AAAA;
+            --c-red: #AA0000;
+            --c-magenta: #AA00AA;
+            --c-brown: #AA5500;
+            --c-grey: #AAAAAA;
+            --c-dgrey: #555555;
+            --c-lblue: #5555FF;
+            --c-lgreen: #55FF55;
+            --c-lcyan: #55FFFF;
+            --c-lred: #FF5555;
+            --c-lmagenta: #FF55FF;
+            --c-yellow: #FFFF55;
+            --c-white: #FFFFFF;
         }
 
-        * { box-sizing: border-box; }
-
         body {
+            background-color: var(--c-black);
             margin: 0;
             padding: 0;
             overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-image) no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--c-white);
             user-select: none;
-            color: var(--text-main);
+            cursor: crosshair; /* The engineering cursor */
         }
 
-        /* --- Boot Screen --- */
-        #boot-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease;
-        }
-        .loader {
-            border: 4px solid #333;
-            border-top: 4px solid var(--accent);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- Desktop --- */
-        #desktop {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, 90px);
-            grid-auto-rows: 100px;
-            gap: 10px;
-            height: calc(100vh - 60px);
-            align-content: start;
-        }
-
-        .desktop-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 8px;
-            padding: 10px;
-            transition: 0.2s;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .desktop-icon:hover {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
-        }
-
-        .desktop-icon i {
-            font-size: 36px;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #ddd, #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
-        }
-        
-        /* Custom colors for icons */
-        .icon-browser i { background: linear-gradient(135deg, #36D1DC, #5B86E5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .icon-store i { background: linear-gradient(135deg, #FF512F, #DD2476); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .icon-python i { background: linear-gradient(135deg, #ffe259, #ffa751); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .desktop-icon span {
-            font-size: 13px;
-            text-align: center;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
-
-        /* --- Taskbar --- */
-        #taskbar {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 800px;
-            height: 55px;
-            background: var(--taskbar-bg);
-            backdrop-filter: blur(15px);
-            border-radius: 15px;
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            z-index: 9999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .task-icon {
-            font-size: 24px;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #ddd;
+        /* --- CRT Monitor Container --- */
+        #monitor {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--c-blue); /* The classic blue background */
             position: relative;
+            box-sizing: border-box;
+            border: 15px solid var(--c-dgrey);
         }
 
-        .task-icon:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            color: white;
+        /* --- Top Menu Bar --- */
+        #menu-bar {
+            background: var(--c-grey);
+            color: var(--c-black);
+            padding: 4px 10px;
+            display: flex;
+            gap: 25px;
+            border-bottom: 4px double var(--c-black);
+            font-size: 18px;
+            z-index: 10000;
+            position: relative;
+            box-shadow: 0 4px 0 var(--c-black);
         }
 
-        .task-icon.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 5px;
-            height: 5px;
-            background: var(--accent);
-            border-radius: 50%;
+        .menu-item { 
+            cursor: pointer; 
+            text-transform: uppercase;
+        }
+        .menu-item:hover { 
+            background: var(--c-blue); 
+            color: var(--c-white); 
+        }
+
+        /* --- Marquee / Status Bar --- */
+        #status-bar {
+            background: var(--c-cyan);
+            color: var(--c-black);
+            padding: 5px;
+            font-size: 16px;
+            border-bottom: 4px double var(--c-black);
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         /* --- Windows --- */
         .window {
             position: absolute;
-            background: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 10px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            background: var(--c-white);
+            color: var(--c-black);
+            border: 6px double var(--c-dgrey);
+            box-shadow: 15px 15px 0px var(--c-black);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            animation: popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            resize: both;
+            min-width: 300px;
+            min-height: 200px;
+            animation: pop 0.1s linear;
         }
 
-        @keyframes popIn {
-            from { transform: scale(0.95) translateY(20px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
+        @keyframes pop { from { transform: scale(0.1); } to { transform: scale(1); } }
 
-        .window-header {
-            background: #252525;
-            padding: 10px 15px;
+        .win-header {
+            background: var(--c-blue);
+            color: var(--c-white);
+            padding: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 4px double var(--c-black);
             cursor: move;
-            border-bottom: 1px solid #333;
-            height: 40px;
+            font-size: 18px;
         }
 
-        .window-title { font-size: 13px; font-weight: 600; color: #ccc; pointer-events: none; }
+        .win-controls { display: flex; gap: 5px; }
+        
+        .btn-win {
+            width: 20px; height: 20px;
+            border: 2px solid var(--c-white);
+            color: var(--c-white);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 16px; font-weight: bold;
+        }
+        .btn-close { background: var(--c-red); }
+        .btn-max { background: var(--c-green); }
 
-        .window-controls { display: flex; gap: 8px; }
-        .win-btn { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; border: none; }
-        .close-btn { background: #ff5f56; }
-        .min-btn { background: #ffbd2e; }
-        .max-btn { background: #27c93f; }
-
-        .window-content { flex: 1; position: relative; background: #121212; overflow: hidden; }
+        .win-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
         /* --- App Specific Styles --- */
         
+        /* Terminal */
+        .term-body {
+            background: var(--c-black);
+            color: var(--c-lcyan);
+            flex: 1;
+            padding: 5px;
+            font-size: 16px;
+            overflow-y: auto;
+            font-family: 'Courier New';
+        }
+        .term-input {
+            background: transparent;
+            border: none;
+            color: var(--c-white);
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: bold;
+            outline: none;
+            width: 80%;
+        }
+
         /* Browser */
-        .browser-bar { padding: 8px; background: #222; display: flex; gap: 10px; border-bottom: 1px solid #333; }
-        .browser-input {
-            flex: 1; background: #111; border: 1px solid #333; color: white;
-            padding: 5px 12px; border-radius: 20px; outline: none; font-size: 13px;
+        .nav-bar {
+            display: flex;
+            padding: 5px;
+            background: var(--c-grey);
+            border-bottom: 2px solid var(--c-black);
+            gap: 5px;
         }
-        .browser-btn {
-            background: transparent; border: none; color: #aaa; cursor: pointer;
+        .url-input {
+            flex: 1;
+            border: 2px solid var(--c-black);
+            font-family: 'Courier New';
+            font-weight: bold;
+            padding: 2px;
         }
-        .browser-frame { width: 100%; height: 100%; border: none; background: white; }
+        .nav-btn {
+            background: var(--c-dgrey);
+            color: var(--c-white);
+            border: 2px outset var(--c-white);
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier New';
+        }
+        .nav-btn:active { border-style: inset; }
 
-        /* App Store */
-        .store-container { padding: 20px; overflow-y: auto; height: 100%; }
-        .store-header { font-size: 24px; margin-bottom: 20px; font-weight: bold; }
-        .store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-        .app-card {
-            background: #2a2a2a; padding: 15px; border-radius: 10px; text-align: center;
-            transition: 0.2s; border: 1px solid #333;
-        }
-        .app-card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .app-card i { font-size: 40px; margin-bottom: 10px; color: var(--accent); }
-        .app-card h4 { margin: 5px 0; font-size: 14px; }
-        .install-btn {
-            background: var(--accent); color: white; border: none; padding: 5px 15px;
-            border-radius: 15px; cursor: pointer; margin-top: 10px; font-size: 12px;
-        }
-        .install-btn:hover { opacity: 0.8; }
-        .install-btn.installed { background: #333; cursor: default; }
+        iframe { border: none; flex: 1; background: white; }
 
-        /* Python IDE */
-        .ide-container { display: flex; flex-direction: column; height: 100%; }
-        .ide-toolbar { padding: 8px; background: #252525; border-bottom: 1px solid #333; }
-        .run-btn { background: #27c93f; color: black; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
-        .ide-editor {
-            flex: 2; background: #1e1e1e; color: #d4d4d4; border: none; padding: 10px;
-            font-family: 'Consolas', monospace; font-size: 14px; resize: none; outline: none;
-        }
-        .ide-console {
-            flex: 1; background: #0f0f0f; color: #ccc; border-top: 1px solid #333;
-            padding: 10px; font-family: 'Consolas', monospace; font-size: 13px; overflow-y: auto;
+        /* Flight Sim Canvas */
+        canvas { display: block; background: #000; image-rendering: pixelated; }
+
+        /* Code Editor */
+        textarea.code-area {
+            flex: 1;
+            background: var(--c-blue);
+            color: var(--c-yellow);
+            border: none;
+            resize: none;
+            padding: 10px;
+            font-family: 'Courier New';
+            font-weight: bold;
+            font-size: 16px;
+            outline: none;
         }
 
-        /* Canvas Games Generic */
-        canvas { display: block; margin: 0 auto; background: #000; }
-        .game-ui { text-align: center; color: white; padding: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- Boot Screen -->
-    <div id="boot-screen">
-        <div class="loader"></div>
-        <div style="color:white; font-size:18px; font-weight:300;">WebOS v2.0</div>
-    </div>
+    <div id="monitor">
+        <!-- Top Menu -->
+        <div id="menu-bar">
+            <div class="menu-item" onclick="OS.open('term')">[Term]</div>
+            <div class="menu-item" onclick="OS.open('browser')">[NetSurf]</div>
+            <div class="menu-item" onclick="OS.open('code')">[Editor]</div>
+            <div class="menu-item" onclick="OS.open('flight')">[Eagle]</div>
+            <div class="menu-item" onclick="OS.open('calc')">[Calc]</div>
+            <div style="flex:1;"></div>
+            <div id="sys-clock">00:00:00</div>
+        </div>
 
-    <!-- Desktop -->
-    <div id="desktop">
-        <!-- Default Apps -->
-        <div class="desktop-icon icon-browser" onclick="OS.openApp('browser')">
-            <i class="fa-solid fa-globe"></i>
-            <span>Browser</span>
+        <!-- Status Bar -->
+        <div id="status-bar">
+            SYSTEM READY || 64-BIT COMPILER OPTIMIZED || MEM: 640KB OK || NO GPU DETECTED - SOFTWARE RENDER ENGAGED
         </div>
-        <div class="desktop-icon icon-store" onclick="OS.openApp('store')">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span>App Store</span>
-        </div>
-        <div class="desktop-icon icon-python" onclick="OS.openApp('python')">
-            <i class="fa-brands fa-python"></i>
-            <span>Python IDE</span>
-        </div>
-        <div class="desktop-icon" onclick="OS.openApp('terminal')">
-            <i class="fa-solid fa-terminal"></i>
-            <span>Terminal</span>
-        </div>
-        <!-- Installed apps appear here -->
-    </div>
 
-    <!-- Taskbar -->
-    <div id="taskbar">
-        <div class="task-icon" onclick="OS.toggleStart()"><i class="fa-brands fa-windows"></i></div>
+        <!-- Desktop Container -->
+        <div id="desktop"></div>
     </div>
 
     <script>
-        // --- OS CORE ---
+        // --- OS KERNEL ---
         const OS = {
             zIndex: 100,
-            installedApps: [],
             
             init: function() {
-                setTimeout(() => {
-                    document.getElementById('boot-screen').style.opacity = '0';
-                    setTimeout(() => document.getElementById('boot-screen').remove(), 1000);
-                }, 1500);
                 this.updateClock();
+                // Auto-open Terminal on boot
+                setTimeout(() => this.open('term'), 500);
             },
 
-            openApp: function(appId, title = null) {
+            updateClock: function() {
+                const now = new Date();
+                document.getElementById('sys-clock').innerText = now.toLocaleTimeString();
+                setTimeout(() => this.updateClock(), 1000);
+            },
+
+            open: function(appKey) {
                 this.zIndex++;
                 const id = 'win-' + Date.now();
-                const win = document.createElement('div');
-                win.classList.add('window');
-                win.id = id;
-                win.style.zIndex = this.zIndex;
-                
-                // Defaults
+                let title = 'Process';
+                let w = '500px', h = '400px';
                 let content = '';
-                let winTitle = title || 'Application';
-                let width = '600px';
-                let height = '450px';
 
-                // App Registry
-                switch(appId) {
-                    case 'browser':
-                        winTitle = 'Web Browser';
-                        width = '800px'; height = '500px';
-                        content = Apps.Browser(id);
-                        break;
-                    case 'store':
-                        winTitle = 'App Store';
-                        width = '700px'; height = '500px';
-                        content = Apps.Store(id);
-                        break;
-                    case 'python':
-                        winTitle = 'Python IDE (Simulated)';
-                        content = Apps.Python(id);
-                        break;
-                    case 'terminal':
-                        winTitle = 'Terminal';
+                // Application Registry
+                switch(appKey) {
+                    case 'term':
+                        title = 'Kernel Shell';
                         content = Apps.Terminal(id);
                         break;
-                    // Games
-                    case 'game_snake': winTitle = 'Snake'; width='420px'; height='460px'; content = Games.Snake(id); break;
-                    case 'game_pong': winTitle = 'Pong'; width='420px'; height='460px'; content = Games.Pong(id); break;
-                    case 'game_dino': winTitle = 'Dino Run'; width='620px'; height='250px'; content = Games.Dino(id); break;
-                    case 'game_mem': winTitle = 'Memory Match'; width='420px'; height='460px'; content = Games.Memory(id); break;
-                    case 'game_click': winTitle = 'Space Miner'; width='300px'; height='400px'; content = Games.Clicker(id); break;
+                    case 'browser':
+                        title = 'NetSurf Web Client';
+                        w = '800px'; h = '500px';
+                        content = Apps.Browser(id);
+                        break;
+                    case 'flight':
+                        title = 'Eagle Flight Sim (Math)';
+                        w = '640px'; h = '500px';
+                        content = Apps.Flight(id);
+                        break;
+                    case 'code':
+                        title = 'Source Editor';
+                        content = Apps.Editor(id);
+                        break;
+                    case 'calc':
+                        title = 'Math Unit';
+                        w = '300px'; h = '400px';
+                        content = Apps.Calc(id);
+                        break;
                 }
 
-                win.style.width = width;
-                win.style.height = height;
-                win.style.left = (Math.random() * 50 + 50) + 'px';
-                win.style.top = (Math.random() * 50 + 50) + 'px';
-
-                win.innerHTML = `
-                    <div class="window-header" onmousedown="OS.dragStart(event, '${id}')">
-                        <span class="window-title">${winTitle}</span>
-                        <div class="window-controls">
-                            <button class="win-btn min-btn"></button>
-                            <button class="win-btn max-btn" onclick="OS.maximize('${id}')"></button>
-                            <button class="win-btn close-btn" onclick="OS.close('${id}')"></button>
-                        </div>
-                    </div>
-                    <div class="window-content">${content}</div>
-                `;
-
-                document.body.appendChild(win);
-                this.addTaskbarIcon(id, appId);
+                this.createWindow(id, title, content, w, h);
                 
-                // Initialize Game Logic after render
-                if(appId.startsWith('game_')) Games.init(appId, id);
+                // Post-render initialization
+                if(appKey === 'flight') setTimeout(() => Apps.initFlight(id), 50);
+                if(appKey === 'term') setTimeout(() => document.getElementById(`in-${id}`).focus(), 50);
             },
 
-            close: function(id) {
-                document.getElementById(id).remove();
+            createWindow: function(id, title, contentHTML, width, height) {
+                const win = document.createElement('div');
+                win.className = 'window';
+                win.id = id;
+                win.style.width = width;
+                win.style.height = height;
+                win.style.zIndex = this.zIndex;
+                
+                // Random spawn position
+                win.style.left = (40 + Math.random() * 100) + 'px';
+                win.style.top = (60 + Math.random() * 100) + 'px';
+
+                win.innerHTML = `
+                    <div class="win-header" onmousedown="OS.dragStart(event, '${id}')">
+                        <span>${title}</span>
+                        <div class="win-controls">
+                            <div class="btn-win btn-max" onclick="OS.maximize('${id}')">^</div>
+                            <div class="btn-win btn-close" onclick="document.getElementById('${id}').remove()">X</div>
+                        </div>
+                    </div>
+                    <div class="win-content">${contentHTML}</div>
+                `;
+
+                document.getElementById('desktop').appendChild(win);
+                win.addEventListener('mousedown', () => win.style.zIndex = ++this.zIndex);
             },
 
             maximize: function(id) {
                 const win = document.getElementById(id);
-                if(win.dataset.max) {
-                    win.style.width = win.dataset.w; win.style.height = win.dataset.h;
-                    win.style.top = win.dataset.t; win.style.left = win.dataset.l;
-                    delete win.dataset.max;
+                if(win.style.width === '100%') {
+                    // Restore
+                    win.style.width = win.dataset.ow;
+                    win.style.height = win.dataset.oh;
+                    win.style.top = win.dataset.ot;
+                    win.style.left = win.dataset.ol;
                 } else {
-                    win.dataset.w = win.style.width; win.dataset.h = win.style.height;
-                    win.dataset.t = win.style.top; win.dataset.l = win.style.left;
-                    win.style.width = '100%'; win.style.height = 'calc(100% - 60px)';
-                    win.style.top = '0'; win.style.left = '0';
-                    win.dataset.max = true;
+                    // Maximize
+                    win.dataset.ow = win.style.width;
+                    win.dataset.oh = win.style.height;
+                    win.dataset.ot = win.style.top;
+                    win.dataset.ol = win.style.left;
+                    win.style.width = '100%';
+                    win.style.height = 'calc(100% - 40px)'; // Account for taskbar
+                    win.style.top = '0';
+                    win.style.left = '0';
                 }
             },
 
             dragStart: function(e, id) {
                 const win = document.getElementById(id);
                 win.style.zIndex = ++this.zIndex;
-                if(win.dataset.max) return; // No drag if maximized
-
-                let shiftX = e.clientX - win.getBoundingClientRect().left;
-                let shiftY = e.clientY - win.getBoundingClientRect().top;
+                
+                const shiftX = e.clientX - win.getBoundingClientRect().left;
+                const shiftY = e.clientY - win.getBoundingClientRect().top;
 
                 function moveAt(pageX, pageY) {
                     win.style.left = pageX - shiftX + 'px';
@@ -396,293 +346,187 @@
                     document.removeEventListener('mousemove', onMouseMove);
                     document.onmouseup = null;
                 };
-            },
-
-            installApp: function(appKey, name, iconClass) {
-                if(this.installedApps.includes(appKey)) return;
-                this.installedApps.push(appKey);
-                
-                const icon = document.createElement('div');
-                icon.className = 'desktop-icon';
-                icon.innerHTML = `<i class="${iconClass}"></i><span>${name}</span>`;
-                icon.onclick = () => OS.openApp(appKey);
-                document.getElementById('desktop').appendChild(icon);
-                
-                // Update button in store if open
-                const btn = document.getElementById(`btn-${appKey}`);
-                if(btn) { btn.innerText = 'Open'; btn.classList.add('installed'); btn.onclick = () => OS.openApp(appKey); }
-            },
-
-            addTaskbarIcon: function(id, type) {
-                // Simplified taskbar logic for visual effect
-            },
-            
-            updateClock: function() {} // Clock logic can be added here
+            }
         };
 
-        // --- APPS CONTENT ---
+        // --- APPLICATIONS ---
         const Apps = {
-            Browser: function(id) {
-                return `
-                    <div style="height:100%; display:flex; flex-direction:column;">
-                        <div class="browser-bar">
-                            <button class="browser-btn" onclick="document.getElementById('f-${id}').contentWindow.history.back()"><i class="fa-solid fa-arrow-left"></i></button>
-                            <button class="browser-btn" onclick="document.getElementById('f-${id}').src = document.getElementById('f-${id}').src"><i class="fa-solid fa-rotate-right"></i></button>
-                            <input type="text" id="i-${id}" class="browser-input" placeholder="Search or type URL" value="https://www.bing.com">
-                            <button class="browser-btn" onclick="Apps.navBrowser('${id}')"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </div>
-                        <iframe id="f-${id}" class="browser-frame" src="https://www.bing.com"></iframe>
-                    </div>
-                `;
-            },
-            navBrowser: function(id) {
-                let val = document.getElementById(`i-${id}`).value;
-                const frame = document.getElementById(`f-${id}`);
-                if(!val.startsWith('http')) {
-                    // It's a search query
-                    frame.src = `https://www.bing.com/search?q=${encodeURIComponent(val)}`;
-                } else {
-                    frame.src = val;
-                }
-            },
-            Store: function(id) {
-                const games = [
-                    { key: 'game_snake', name: 'Super Snake', icon: 'fa-solid fa-worm' },
-                    { key: 'game_pong', name: 'Retro Pong', icon: 'fa-solid fa-table-tennis-paddle-ball' },
-                    { key: 'game_dino', name: 'Dino Runner', icon: 'fa-solid fa-dragon' },
-                    { key: 'game_mem', name: 'Brain Memory', icon: 'fa-solid fa-brain' },
-                    { key: 'game_click', name: 'Space Miner', icon: 'fa-solid fa-gem' },
-                ];
-                
-                let html = `<div class="store-container"><div class="store-header">Featured Games</div><div class="store-grid">`;
-                
-                games.forEach(g => {
-                    const isInstalled = OS.installedApps.includes(g.key);
-                    const btnText = isInstalled ? 'Open' : 'Get';
-                    const btnClass = isInstalled ? 'install-btn installed' : 'install-btn';
-                    const action = isInstalled ? `OS.openApp('${g.key}')` : `OS.installApp('${g.key}', '${g.name}', '${g.icon}')`;
-                    
-                    html += `
-                        <div class="app-card">
-                            <i class="${g.icon}"></i>
-                            <h4>${g.name}</h4>
-                            <button id="btn-${g.key}" class="${btnClass}" onclick="${action}">${btnText}</button>
-                        </div>
-                    `;
-                });
-                
-                html += `</div></div>`;
-                return html;
-            },
-            Python: function(id) {
-                return `
-                    <div class="ide-container">
-                        <div class="ide-toolbar">
-                            <button class="run-btn" onclick="Apps.runPython('${id}')"><i class="fa-solid fa-play"></i> Run Code</button>
-                        </div>
-                        <textarea id="code-${id}" class="ide-editor" spellcheck="false"># Simple Python Simulator
-print("Hello WebOS!")
-x = 10
-y = 20
-print("Sum is:", x + y)
-
-if x < y:
-    print("X is smaller")
-</textarea>
-                        <div id="out-${id}" class="ide-console">>> Ready...</div>
-                    </div>
-                `;
-            },
-            runPython: function(id) {
-                const code = document.getElementById(`code-${id}`).value;
-                const out = document.getElementById(`out-${id}`);
-                out.innerHTML = '';
-                
-                // Very Basic JS-based Parser to simulate Python
-                const log = (txt) => out.innerHTML += `<div>${txt}</div>`;
-                
-                try {
-                    const lines = code.split('\n');
-                    let variables = {};
-                    
-                    lines.forEach(line => {
-                        line = line.trim();
-                        if(!line || line.startsWith('#')) return;
-
-                        // Print
-                        if(line.startsWith('print(')) {
-                            let content = line.substring(6, line.length - 1);
-                            // Simple variable replacement
-                            for(let v in variables) {
-                                // Regex to replace variable with value if it exists in print
-                                const regex = new RegExp(`\\b${v}\\b`, 'g');
-                                content = content.replace(regex, variables[v]);
-                            }
-                            // Solve math in print
-                            if(content.includes('+') || content.includes('-') || content.includes('*')) {
-                                try {
-                                    // Remove quotes for math
-                                    let mathPart = content.replace(/"/g, '').replace(/'/g, '');
-                                    // Split comma for "Text", val
-                                    let parts = mathPart.split(',');
-                                    let finalStr = '';
-                                    parts.forEach(p => {
-                                        if(!isNaN(parseFloat(p))) finalStr += p + " ";
-                                        else if (p.trim().match(/[\d\+\-\*\/]/)) finalStr += eval(p) + " ";
-                                        else finalStr += p + " ";
-                                    });
-                                    log(finalStr);
-                                    return;
-                                } catch(e) {}
-                            }
-                            log(content.replace(/"/g, '').replace(/'/g, ''));
-                        }
-                        // Assignment
-                        else if(line.includes('=')) {
-                            const parts = line.split('=');
-                            const key = parts[0].trim();
-                            const val = parts[1].trim();
-                            if(!isNaN(val)) variables[key] = parseFloat(val);
-                            else variables[key] = val.replace(/"/g, '');
-                        }
-                        // Simple If
-                        else if (line.startsWith('if ')) {
-                            // extremely basic check
-                            log("[Sim] If statement encountered (Logic simplified for demo)");
-                        }
-                    });
-                    log(`<span style="color:#27c93f">>> Execution Finished</span>`);
-                } catch (e) {
-                    log(`<span style="color:red">Error: ${e.message}</span>`);
-                }
-            },
             Terminal: function(id) {
-                return `<div style="padding:10px; font-family:monospace; color:#0f0;">root@webos:~$ <span class="blink">_</span><br><br> (Type 'help' in Console currently not fully wired in v2, use GUI apps)</div>`;
-            }
-        };
-
-        // --- GAMES LOGIC ---
-        const Games = {
-            init: function(key, winId) {
-                if(key === 'game_snake') this.startSnake(winId);
-                if(key === 'game_pong') this.startPong(winId);
-                if(key === 'game_dino') this.startDino(winId);
-            },
-            Snake: function(id) {
-                return `<div class="game-ui"><canvas id="c-${id}" width="400" height="400"></canvas><p>Arrow Keys to Move</p></div>`;
-            },
-            startSnake: function(id) {
-                const cvs = document.getElementById(`c-${id}`);
-                const ctx = cvs.getContext('2d');
-                let snake = [{x:10, y:10}];
-                let food = {x:15, y:15};
-                let dx=1, dy=0;
-                
-                document.addEventListener('keydown', e => {
-                    if(e.key==='ArrowUp' && dy!==1) { dx=0; dy=-1; }
-                    if(e.key==='ArrowDown' && dy!==-1) { dx=0; dy=1; }
-                    if(e.key==='ArrowLeft' && dx!==1) { dx=-1; dy=0; }
-                    if(e.key==='ArrowRight' && dx!==-1) { dx=1; dy=0; }
-                });
-
-                setInterval(() => {
-                    if(!document.getElementById(id)) return;
-                    let head = {x: snake[0].x + dx, y: snake[0].y + dy};
-                    if(head.x < 0) head.x = 19; if(head.x > 19) head.x = 0;
-                    if(head.y < 0) head.y = 19; if(head.y > 19) head.y = 0;
-                    
-                    snake.unshift(head);
-                    if(head.x === food.x && head.y === food.y) {
-                        food = {x: Math.floor(Math.random()*20), y: Math.floor(Math.random()*20)};
-                    } else {
-                        snake.pop();
-                    }
-
-                    // Draw
-                    ctx.fillStyle = 'black'; ctx.fillRect(0,0,400,400);
-                    ctx.fillStyle = '#0f0';
-                    snake.forEach(p => ctx.fillRect(p.x*20, p.y*20, 18, 18));
-                    ctx.fillStyle = 'red';
-                    ctx.fillRect(food.x*20, food.y*20, 18, 18);
-                }, 100);
-            },
-            Pong: function(id) {
-                return `<div class="game-ui"><canvas id="p-${id}" width="400" height="400"></canvas><p>Mouse Y to move paddle</p></div>`;
-            },
-            startPong: function(id) {
-                const cvs = document.getElementById(`p-${id}`);
-                const ctx = cvs.getContext('2d');
-                let padY = 150;
-                let bx = 200, by = 200, bvx = 2, bvy = 2;
-                
-                cvs.onmousemove = (e) => {
-                    const rect = cvs.getBoundingClientRect();
-                    padY = e.clientY - rect.top - 50;
-                };
-
-                setInterval(() => {
-                    if(!document.getElementById(id)) return;
-                    bx += bvx; by += bvy;
-                    
-                    if(by < 0 || by > 400) bvy = -bvy;
-                    if(bx > 400) bvx = -bvx;
-                    if(bx < 20) {
-                        if(by > padY && by < padY+100) bvx = -bvx;
-                        else { bx=200; by=200; } // reset
-                    }
-
-                    ctx.fillStyle = 'black'; ctx.fillRect(0,0,400,400);
-                    ctx.fillStyle = 'white';
-                    ctx.fillRect(10, padY, 10, 100); // Paddle
-                    ctx.beginPath(); ctx.arc(bx, by, 8, 0, Math.PI*2); ctx.fill();
-                }, 10);
-            },
-            Dino: function(id) {
-                return `<div class="game-ui" onclick="Games.dinoJump('${id}')"><canvas id="d-${id}" width="600" height="150"></canvas><p>Click window to Jump</p></div>`;
-            },
-            dinoJumpVal: 0,
-            dinoJump: function(id) { if(this.dinoJumpVal === 0) this.dinoJumpVal = 15; },
-            startDino: function(id) {
-                const cvs = document.getElementById(`d-${id}`);
-                const ctx = cvs.getContext('2d');
-                let dinoY = 100;
-                let obstacleX = 600;
-                
-                setInterval(() => {
-                    if(!document.getElementById(id)) return;
-                    // Physics
-                    if(Games.dinoJumpVal > 0) { dinoY -= 5; Games.dinoJumpVal--; }
-                    else if(dinoY < 100) dinoY += 5;
-                    
-                    obstacleX -= 5;
-                    if(obstacleX < -20) obstacleX = 600;
-
-                    // Draw
-                    ctx.fillStyle = 'white'; ctx.fillRect(0,0,600,150);
-                    ctx.fillStyle = 'black'; ctx.fillRect(0, 140, 600, 2); // ground
-                    ctx.fillStyle = '#555'; ctx.fillRect(50, dinoY, 20, 40); // dino
-                    ctx.fillStyle = 'red'; ctx.fillRect(obstacleX, 120, 20, 20); // obstacle
-                }, 20);
-            },
-            Memory: function(id) {
-                // Simplified Logic for Memory
-                return `<div style="padding:20px; text-align:center;"><h2>Memory Game</h2><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px;">
-                    ${Array(16).fill(0).map((_,i) => `<button style="height:60px; background:#333; border:none;" onclick="this.style.background='var(--accent)'">?</button>`).join('')}
-                </div></div>`;
-            },
-            Clicker: function(id) {
                 return `
-                <div style="text-align:center; padding:20px; color:white;">
-                    <h2>Space Miner</h2>
-                    <h1 id="score-${id}">0</h1>
-                    <p>Minerals</p>
-                    <button style="padding:15px 30px; background:var(--accent); border:none; border-radius:50%; color:white; font-size:20px; cursor:pointer;" 
-                    onclick="let s=document.getElementById('score-${id}'); s.innerText = parseInt(s.innerText)+1;">⛏️</button>
-                </div>`;
+                    <div class="term-body" id="term-out-${id}" onclick="document.getElementById('in-${id}').focus()">
+                        <div>ConstructOS Kernel v1.0</div>
+                        <div>Copyright (c) 2024. No Warranty.</div>
+                        <div>Type 'help' for commands.</div>
+                        <br>
+                        <div id="log-${id}"></div>
+                        <div style="display:flex;">
+                            <span>C:/ROOT/USER> </span>
+                            <input type="text" id="in-${id}" class="term-input" autocomplete="off" onkeydown="Apps.handleCmd(event, '${id}')">
+                        </div>
+                    </div>
+                `;
+            },
+            handleCmd: function(e, id) {
+                if(e.key === 'Enter') {
+                    const val = e.target.value;
+                    const log = document.getElementById(`log-${id}`);
+                    log.innerHTML += `<div>C:/ROOT/USER> ${val}</div>`;
+                    
+                    const cmd = val.toLowerCase().trim();
+                    if(cmd === 'help') log.innerHTML += `<div style="color:var(--c-lgreen)">CMDS: DIR, CLS, TIME, ECHO, MOUNT, REBOOT</div>`;
+                    else if(cmd === 'dir') log.innerHTML += `<div>KERNEL.BIN <br> GAMES/ <br> DOCS/ <br> CONFIG.SYS</div>`;
+                    else if(cmd === 'cls') log.innerHTML = '';
+                    else if(cmd === 'time') log.innerHTML += `<div>${new Date().toString()}</div>`;
+                    else if(cmd === 'reboot') location.reload();
+                    else log.innerHTML += `<div style="color:var(--c-lred)">Bad Command or File Name</div>`;
+
+                    e.target.value = '';
+                    document.getElementById(`term-out-${id}`).scrollTop = document.getElementById(`term-out-${id}`).scrollHeight;
+                }
+            },
+
+            Browser: function(id) {
+                // Default to a search engine that often allows framing, or Wikipedia
+                return `
+                    <div style="display:flex; flex-direction:column; height:100%;">
+                        <div class="nav-bar">
+                            <button class="nav-btn" onclick="Apps.nav('${id}', 'back')"><</button>
+                            <button class="nav-btn" onclick="Apps.nav('${id}', 'reload')">R</button>
+                            <input type="text" id="url-${id}" class="url-input" value="https://www.bing.com">
+                            <button class="nav-btn" onclick="Apps.nav('${id}', 'go')">GO</button>
+                            <button class="nav-btn" style="background:var(--c-lblue);" onclick="Apps.nav('${id}', 'pop')">↗</button>
+                        </div>
+                        <iframe id="frame-${id}" src="https://www.bing.com"></iframe>
+                        <div style="background:var(--c-yellow); color:black; padding:2px; font-size:12px; text-align:center;">
+                            NOTE: If site refuses to load, click [↗] to open external.
+                        </div>
+                    </div>
+                `;
+            },
+            nav: function(id, action) {
+                const frame = document.getElementById(`frame-${id}`);
+                const input = document.getElementById(`url-${id}`);
+                let url = input.value;
+
+                if (!url.startsWith('http')) url = 'https://' + url;
+
+                if (action === 'go') {
+                    frame.src = url;
+                } else if (action === 'back') {
+                    frame.contentWindow.history.back();
+                } else if (action === 'reload') {
+                    frame.src = frame.src;
+                } else if (action === 'pop') {
+                    window.open(url, '_blank');
+                }
+            },
+
+            Editor: function(id) {
+                return `
+                    <div style="display:flex; flex-direction:column; height:100%;">
+                        <div style="background:#ddd; color:black; padding:2px;">FILE: UNTITLED.CPP</div>
+                        <textarea class="code-area">
+// System Startup Code
+#include <kernel.h>
+
+void main() {
+    Print("System Initialized");
+    int mem = GetFreeMem();
+    if (mem > 640000) {
+        LaunchShell();
+    }
+}</textarea>
+                        <button class="nav-btn" style="width:100%;">COMPILE (F5)</button>
+                    </div>
+                `;
+            },
+
+            Calc: function(id) {
+                return `
+                    <div style="padding:10px; height:100%; background:var(--c-dgrey); display:flex; flex-direction:column; gap:5px;">
+                        <input id="c-disp-${id}" type="text" style="width:100%; background:var(--c-lcyan); color:black; font-weight:bold; padding:5px; text-align:right;" readonly>
+                        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px; flex:1;">
+                            ${['7','8','9','/', '4','5','6','*', '1','2','3','-', 'C','0','=','+'].map(k => 
+                                `<button onclick="Apps.calcBtn('${id}', '${k}')" style="font-weight:bold; font-family:'Courier New'; cursor:pointer;">${k}</button>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+            calcBtn: function(id, val) {
+                const disp = document.getElementById(`c-disp-${id}`);
+                if(val === 'C') disp.value = '';
+                else if(val === '=') { try { disp.value = eval(disp.value); } catch{ disp.value='ERR'; } }
+                else disp.value += val;
+            },
+
+            Flight: function(id) {
+                return `<canvas id="cvs-${id}" width="600" height="400" style="width:100%; height:100%;"></canvas>`;
+            },
+            initFlight: function(id) {
+                const canvas = document.getElementById(`cvs-${id}`);
+                if(!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let frame = 0;
+
+                function draw() {
+                    if(!document.getElementById(id)) return; // Stop loop if window closed
+                    
+                    // Simple Wireframe Renderer
+                    ctx.fillStyle = "#000000";
+                    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+                    const cx = canvas.width / 2;
+                    const cy = canvas.height / 2;
+                    
+                    // Horizon
+                    ctx.strokeStyle = "#FFFFFF";
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    let tilt = Math.sin(frame * 0.02) * 50;
+                    ctx.moveTo(0, cy + tilt);
+                    ctx.lineTo(canvas.width, cy - tilt);
+                    ctx.stroke();
+
+                    // Grid Ground
+                    ctx.strokeStyle = "#00AAAA"; // Cyan
+                    for(let i=0; i<12; i++) {
+                        let y = cy + (i*i*2) + (frame % 20); // Moving forward effect
+                        if (y > canvas.height) y = cy;
+                        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+                    }
+                    // Vertical lines
+                    for(let i=-10; i<10; i++) {
+                        ctx.beginPath();
+                        ctx.moveTo(cx + (i*50) + (tilt*2), cy);
+                        ctx.lineTo(cx + (i*200), canvas.height);
+                        ctx.stroke();
+                    }
+
+                    // Floating Objects (Abstract 3D)
+                    ctx.strokeStyle = "#AA0000"; // Red
+                    let size = 50 + Math.sin(frame * 0.05) * 20;
+                    let ox = cx + Math.cos(frame * 0.03) * 100;
+                    let oy = cy - 50 + Math.sin(frame * 0.03) * 50;
+                    
+                    ctx.strokeRect(ox - size/2, oy - size/2, size, size);
+                    ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox+size/2, oy+size/2); ctx.stroke();
+
+                    // HUD
+                    ctx.fillStyle = "#FFFF55";
+                    ctx.font = "20px Courier New";
+                    ctx.fillText(`ALT: ${1000 + Math.floor(Math.sin(frame*0.1)*50)} FT`, 10, 30);
+                    ctx.fillText(`VEL: 450 KNOTS`, 10, 50);
+
+                    frame++;
+                    requestAnimationFrame(draw);
+                }
+                draw();
             }
         };
 
-        window.onload = () => OS.init();
+        // Start
+        OS.init();
     </script>
 </body>
 </html>
